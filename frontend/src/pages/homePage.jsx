@@ -1,11 +1,12 @@
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 export default function HomePage() {
   const [combos, setCombos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCombos();
@@ -45,11 +46,13 @@ export default function HomePage() {
           {combos.map((combo) => (
             <div
               key={combo.combo_id}
+              onClick={() => navigate(`/combos/${combo.combo_id}`)}
               style={{
                 border: '1px solid #ccc',
                 borderRadius: '8px',
                 padding: '16px',
                 background: '#fff',
+                cursor: 'pointer',
               }}
             >
               <h3>{combo.title}</h3>

@@ -1,23 +1,677 @@
+/* theme colors from figma */
+:root {
+  --cream: #FCFAF5;
+  --dark-gray: #3B3B3B;
+
+  --sage-green: #A3B18A;
+  --light-green: #E7EAD8;
+  --olive-dark: #6B7A5A;
+
+  --soft-rose: #E8B4B8;
+  --blush-pink: #F4C2C2;
+  --dusty-rose: #D4A5A5;
+
+  --beige-light: #F5F0E8;
+  --peach-light: #FADADD;
+}
+
+/* global style */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* body */
 body {
-  font-family: Arial, sans-serif;
-  background: #f7f7f7;
-  color: #222;
+  background: var(--cream);
+  color: var(--dark-gray);
+  font-family: 'Inter', Arial, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
+/* form element */
 button,
-input,
-select,
-textarea {
+input {
   font: inherit;
+}
+
+/* button */
+button {
+  cursor: pointer;
+}
+
+/* layout chinh */
+.app-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  min-height: 100vh;
+}
+
+/* main content */
+.main-content {
+  background: linear-gradient(
+    180deg,
+    var(--cream) 0%,
+    #fbf8ef 45%,
+    #f7f4ea 100%
+  );
+  min-height: 100vh;
+}
+
+/* sidebar ben phai */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 32px 24px;
+  background: linear-gradient(
+    180deg,
+    #fcfaf5 0%,
+    #f3f4e6 45%,
+    var(--light-green) 100%
+  );
+  border-left: 1px solid #d9dec5;
+  overflow-y: auto;
+}
+
+/* logo */
+.logo {
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+
+/* subtitle */
+.subtitle {
+  color: #777;
+  font-size: 14px;
+}
+
+/* sidebar section */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 32px 24px;
+  background: linear-gradient(
+    180deg,
+    var(--peach-light),
+    var(--light-green)
+  );
+  border-left: 1px solid var(--sage-green);
+  overflow-y: auto;
+}
+
+/* section title */
+.section-title {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+/* menu item */
+.menu-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  color: var(--dark-gray);
+}
+
+/* menu small text */
+.menu-item small {
+  display: block;
+  color: #777;
+  margin-top: 2px;
+}
+
+/* active menu */
+.menu-item.active {
+  background: var(--sage-green);
+  color: white;
+  box-shadow: 0 8px 18px rgba(107, 122, 90, 0.28);
+}
+
+/* active menu small text */
+.menu-item.active small {
+  color: #f5f5f5;
+}
+
+/* destination item */
+.destination-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 4px;
+  color: #444;
+}
+
+/* destination icon */
+.destination-item span {
+  color: var(--sage-green);
+}
+
+/* travel stats card */
+.travel-stats {
+  margin-top: 34px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid #e2e6d3;
+}
+
+/* travel stats title */
+.travel-stats p {
+  color: #888;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+/* travel stats number */
+.travel-stats h3 {
+  color: var(--sage-green);
+  font-size: 28px;
+  margin-top: 8px;
+}
+
+/* pink stats */
+.travel-stats .pink {
+  color: #d4a5a5;
+}
+
+/* travel stats text */
+.travel-stats span {
+  color: #666;
+  font-size: 14px;
+}
+
+/* hero section */
+.hero {
+  height: 520px;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  position: relative;
+  transition: background-image 0.4s ease-in-out;
+}
+
+/* hero content */
+.hero-overlay {
+  height: 100%;
+  padding: 150px 40px 0;
+  position: relative;
+}
+
+/* hero tags */
+.hero-tags {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+/* hero tag item */
+.hero-tags span {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--dark-gray);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+/* hero title */
+.hero h1 {
+  font-size: 76px;
+  line-height: 1;
+  margin-bottom: 22px;
+  color: white;
+}
+
+/* hero subtitle */
+.hero h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+  color: white;
+}
+
+/* hero paragraph */
+.hero p {
+  font-size: 20px;
+  margin-bottom: 34px;
+  color: white;
+}
+
+/* hero button */
+.hero-button {
+  background: #eac7b3;
+  color: white;
+  border: none;
+  padding: 18px 34px;
+  border-radius: 16px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* hero arrow button */
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  font-size: 44px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+/* hero left arrow */
+.hero-arrow-left {
+  left: 36px;
+}
+
+/* hero right arrow */
+.hero-arrow-right {
+  right: 36px;
+}
+
+/* hero dots */
+.hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 34px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+/* hero dot */
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* hero active dot */
+.hero-dot.active {
+  width: 46px;
+  background: white;
+}
+
+/* search box */
+.search-box {
+  margin: 44px 36px 24px;
+  padding: 26px;
+  background: #ffffff;
+  border: 2px solid var(--dark-gray);
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: 1fr 150px 140px;
+  gap: 14px;
+  align-items: center;
+  box-shadow: 0 16px 28px rgba(59, 59, 59, 0.14);
+  max-width: 1080px;
+}
+
+/* search input */
+.search-box input {
+  width: 100%;
+  height: 58px;
+  border: 2px solid var(--light-green);
+  border-radius: 14px;
+  padding: 0 18px;
+  outline: none;
+  background: #ffffff;
+}
+
+/* search button */
+.search-box button {
+  height: 58px;
+  border: none;
+  background: var(--sage-green);
+  color: white;
+  border-radius: 14px;
+  font-weight: bold;
+}
+
+/* popular tags */
+.popular-tags {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 36px 80px;
+}
+
+/* popular text */
+.popular-tags span {
+  color: #777;
+}
+
+/* popular button */
+.popular-tags button {
+  border: 1px solid #dfe3ca;
+  background: white;
+  padding: 10px 18px;
+  border-radius: 24px;
+}
+
+/* deals section */
+.deals-section {
+  padding: 0 36px 70px;
+}
+
+/* section heading */
+.section-heading {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 34px;
+}
+
+/* icon box */
+.icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--sage-green);
+  display: grid;
+  place-items: center;
+  color: white;
+}
+
+/* section heading title */
+.section-heading h2 {
+  font-size: 48px;
+}
+
+/* section heading text */
+.section-heading p {
+  color: #777;
+}
+
+/* combo grid */
+.combo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+/* combo card */
+.combo-card {
+  background: white;
+  border: 2px solid #333;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* combo image area */
+.combo-image {
+  height: 210px;
+  position: relative;
+  background: #ddd;
+}
+
+/* combo img */
+.combo-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* image placeholder */
+.image-placeholder {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #888;
+  background: linear-gradient(#ddd, #aaa);
+}
+
+/* deal badge and region badge */
+.deal-badge,
+.region-badge {
+  position: absolute;
+  top: 14px;
+  padding: 8px 14px;
+  border-radius: 18px;
+  color: white;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.deal-badge {
+  left: 14px;
+  background: var(--sage-green);
+}
+
+.region-badge {
+  right: 14px;
+  background: var(--sage-green);
+}
+
+/* combo content */
+.combo-content {
+  padding: 22px;
+}
+
+/* combo title */
+.combo-content h3 {
+  font-size: 23px;
+  margin-bottom: 14px;
+}
+
+/* combo meta */
+.combo-meta {
+  color: #777;
+  margin-bottom: 10px;
+}
+
+/* accommodation type badge */
+.type-badge {
+  display: inline-block;
+  background: var(--light-green);
+  color: #777;
+  padding: 6px 12px;
+  border-radius: 12px;
+  margin: 8px 0 20px;
+}
+
+/* price row */
+.price-row {
+  border-top: 1px solid #e6e6d8;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+/* price label */
+.price-row small {
+  color: #777;
+}
+
+/* price text */
+.price {
+  color: var(--sage-green);
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* detail button */
+.price-row button {
+  background: white;
+  border: 2px solid #333;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-weight: bold;
+  box-shadow: 4px 4px 0 #333;
+}
+
+/* region section */
+.region-section {
+  padding: 0 36px 90px;
+}
+
+/* region title */
+.region-section h2 {
+  font-size: 52px;
+  margin-bottom: 34px;
+}
+
+/* region grid */
+.region-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* region card */
+.region-card {
+  padding: 46px;
+  border-radius: 16px;
+  border: 2px solid var(--dark-gray);
+  color: white;
+  min-height: 260px;
+  box-shadow: 0 14px 28px rgba(59, 59, 59, 0.13);
+}
+
+/* green region card */
+.region-card.green {
+  background: var(--sage-green);
+}
+
+/* pink region card */
+.region-card.pink {
+  background: var(--soft-rose);
+}
+
+/* region badge */
+.region-card span {
+  background: white;
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 18px;
+  display: inline-block;
+  margin-bottom: 24px;
+  font-weight: bold;
+}
+
+/* region name */
+.region-card h3 {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+/* region text */
+.region-card p {
+  font-size: 20px;
+  line-height: 1.15;
+  margin-bottom: 32px;
+}
+
+/* region button */
+.region-card button {
+  border: none;
+  background: white;
+  color: #333;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-weight: bold;
+}
+
+/* responsive tablet */
+@media (max-width: 1100px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .combo-grid,
+  .region-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-box {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* responsive mobile */
+@media (max-width: 700px) {
+  .combo-grid,
+  .region-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .section-heading h2,
+  .region-section h2 {
+    font-size: 36px;
+  }
+}
+
+/* fix sidebar mau olive */
+.sidebar {
+  background: linear-gradient(
+    180deg,
+    #fcfaf5 0%,
+    #f6f4e8 35%,
+    #eef1df 65%,
+    #e7ead8 100%
+  ) !important;
+  border-left: 1px solid #d8ddc6 !important;
+}
+
+/* fix body + main background */
+body,
+.main-content {
+  background: #fcfaf5 !important;
+}
+
+/* fix active menu xanh olive */
+.menu-item.active {
+  background: #a3b18a !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px rgba(107, 122, 90, 0.28) !important;
+}
+
+/* fix sidebar stat */
+.travel-stats {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border: 1px solid #e1e5d1 !important;
+}
+
+/* fix pink number nhe hon */
+.travel-stats .pink {
+  color: #d4a5a5 !important;
+}
+
+/* fix region badge dung olive */
+.region-badge {
+  background: #a3b18a !important;
+}
+
+/* fix nut search olive */
+.search-box button {
+  background: #a3b18a !important;
+}
+
+/* fix icon box olive */
+.icon-box {
+  background: #a3b18a !important;
 }

@@ -1,0 +1,46 @@
+/* theme colors */
+
+:root {
+  --cream: #FCFAF5;
+  --dark-gray: #3B3B3B;
+
+  --sage-green: #A3B18A;
+  --light-green: #E7EAD8;
+  --olive-dark: #6B7A5A;
+
+  --soft-rose: #E8B4B8;
+  --blush-pink: #F4C2C2;
+  --dusty-rose: #D4A5A5;
+
+  --beige-light: #F5F0E8;
+  --peach-light: #FADADD;
+}
+
+/* reset */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body */
+
+body {
+  background: var(--cream);
+  color: var(--dark-gray);
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+/* form element */
+
+button,
+input {
+  font: inherit;
+}
+
+/* button */
+
+button {
+  cursor: pointer;
+}

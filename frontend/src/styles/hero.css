@@ -1,0 +1,145 @@
+/* hero section */
+
+.hero {
+  height: 520px;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  position: relative;
+  transition: background-image 0.4s ease-in-out;
+}
+
+/* hero overlay */
+
+.hero-overlay {
+  height: 100%;
+  padding: 150px 80px 0;
+  position: relative;
+}
+
+/* hero tags */
+
+.hero-tags {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+/* hero tag item */
+
+.hero-tags span {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--dark-gray);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+/* hero title */
+
+.hero h1 {
+  font-size: 76px;
+  line-height: 1;
+  margin-bottom: 22px;
+  color: white;
+}
+
+/* hero subtitle */
+
+.hero h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+  color: white;
+}
+
+/* hero paragraph */
+
+.hero p {
+  font-size: 20px;
+  margin-bottom: 34px;
+  color: white;
+}
+
+/* hero button */
+
+.hero-button {
+  background: #eac7b3;
+  color: white;
+  border: none;
+  padding: 18px 34px;
+  border-radius: 16px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* hero arrow button */
+
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+  color: white;
+  font-size: 44px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  z-index: 5;
+
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+}
+
+/* hero left arrow */
+
+.hero-arrow-left {
+  left: 24px;
+}
+
+/* hero right arrow */
+
+.hero-arrow-right {
+  right: 24px;
+}
+
+/* hero dots */
+
+.hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 34px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 5;
+}
+
+/* hero dot */
+
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* active hero dot */
+
+.hero-dot.active {
+  width: 46px;
+  background: white;
+}
+
+/* remove default button outline */
+
+.hero-arrow,
+.hero-dot {
+  outline: none;
+}

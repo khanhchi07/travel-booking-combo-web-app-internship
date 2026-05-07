@@ -1,0 +1,40 @@
+/* tablet */
+
+@media (max-width: 1100px) {
+
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .combo-grid,
+  .region-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-box {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* mobile */
+
+@media (max-width: 700px) {
+
+  .combo-grid,
+  .region-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .section-heading h2,
+  .region-section h2 {
+    font-size: 36px;
+  }
+}

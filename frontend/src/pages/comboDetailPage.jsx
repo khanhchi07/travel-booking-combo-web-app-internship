@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import api from '../services/api';
-
 import Sidebar from '../components/Sidebar';
 
 import '../styles/combo-detail.css';
@@ -14,6 +13,9 @@ export default function ComboDetailPage() {
 
   // state luu thong tin combo
   const [combo, setCombo] = useState(null);
+
+  // state luu promotions
+  const [promotions, setPromotions] = useState([]);
 
   // state loading va error
   const [loading, setLoading] = useState(true);
@@ -37,7 +39,11 @@ export default function ComboDetailPage() {
       setError('');
 
       const response = await api.get(`/combos/${id}`);
-      setCombo(response.data.data || response.data);
+
+      // api moi co combo + promotions
+      setCombo(response.data.data.combo);
+      setPromotions(response.data.data.promotions || []);
+
     } catch (err) {
       console.error(err);
       setError('Failed to load combo detail');
@@ -54,6 +60,7 @@ export default function ComboDetailPage() {
       );
 
       setPriceData(response.data.data);
+
     } catch (err) {
       console.error(err);
     }
@@ -63,19 +70,6 @@ export default function ComboDetailPage() {
   const handleBookNow = () => {
     navigate(`/booking?combo_id=${combo.combo_id}&people=${people}`);
   };
-
-  // tinh tong tien hien thi
-  const totalOriginalPrice = priceData
-    ? Number(priceData.original_price) * Number(people)
-    : 0;
-
-  const totalDiscount = priceData
-    ? Number(priceData.discount_amount) * Number(people)
-    : 0;
-
-  const totalFinalPrice = priceData
-    ? Number(priceData.final_price) * Number(people)
-    : 0;
 
   // loading UI
   if (loading) {
@@ -97,34 +91,43 @@ export default function ComboDetailPage() {
 
       {/* main content */}
       <main className="main-content">
+
         <div className="combo-detail-page">
 
-          {/* nut quay lai */}
-          <button className="back-btn" onClick={() => navigate(-1)}>
+          {/* back button */}
+          <button
+            className="back-btn"
+            onClick={() => navigate(-1)}
+          >
             ← Back
           </button>
 
           {/* hero image */}
           <div className="detail-hero">
+
             <img
               src={combo.image_url}
               alt={combo.title}
               className="detail-image"
             />
- 
+
             <span className="detail-badge">
               {combo.region}
             </span>
+
           </div>
 
           {/* combo info */}
           <div className="detail-card">
+
             <h1>{combo.title}</h1>
 
+            {/* meta info */}
             <div className="detail-meta">
 
               <div className="meta-item">
                 <span>📍</span>
+
                 <div>
                   <p>Destination</p>
                   <strong>{combo.destination}</strong>
@@ -133,26 +136,189 @@ export default function ComboDetailPage() {
 
               <div className="meta-item">
                 <span>🕒</span>
+
                 <div>
                   <p>Duration</p>
-                  <strong>{combo.duration_days} days</strong>
+
+                  <strong>
+                    {combo.duration_days} days
+
+                    {combo.duration_nights
+                      ? ` ${combo.duration_nights} nights`
+                      : ''}
+                  </strong>
                 </div>
               </div>
 
               <div className="meta-item">
-                <span>⭐</span>
+                <span>🏷️</span>
+
                 <div>
-                  <p>Rating</p>
-                  <strong>4.8 (456 reviews)</strong>
+                  <p>Combo Type</p>
+                  <strong>{combo.combo_type}</strong>
                 </div>
               </div>
-  
+
             </div>
 
+            {/* description */}
             <p className="detail-description">
               {combo.description}
             </p>
+
           </div>
+
+          {/* transportation */}
+          {combo.transportation && (
+            <div className="detail-card">
+
+              <h2>Transportation</h2>
+
+              <p className="detail-description">
+                {combo.transportation}
+              </p>
+
+            </div>
+          )}
+
+          {/* promotions */}
+          {promotions.length > 0 && (
+            <div className="detail-card">
+
+              <h2>🔥 Available Promotions</h2>
+
+              <div className="highlight-grid">
+
+                {promotions.map((promo) => (
+
+                  <div
+                    key={promo.promotion_id}
+                    className="highlight-item"
+                  >
+                    <h3>{promo.title}</h3>
+
+                    <p>
+                      {promo.discount_type === 'percentage'
+                        ? `${promo.discount_value}% OFF`
+                        : `${Number(promo.discount_value).toLocaleString('vi-VN')} đ OFF`}
+                    </p>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            </div>
+          )}
+
+          {/* highlights */}
+          {combo.highlights && (
+            <div className="detail-card">
+
+              <h2>✨ Highlights</h2>
+
+              <div className="highlight-grid">
+
+                {combo.highlights
+                  .split(',')
+                  .map((item, index) => (
+
+                    <div
+                      key={index}
+                      className="highlight-item"
+                    >
+                      ✓ {item.trim()}
+                    </div>
+
+                  ))}
+
+              </div>
+
+            </div>
+          )}
+
+          {/* itinerary */}
+          {combo.itinerary && (
+            <div className="detail-card">
+
+              <h2>📅 Itinerary</h2>
+
+              <div className="timeline">
+
+                {combo.itinerary
+                  .split('|')
+                  .map((item, index) => (
+
+                    <div
+                      key={index}
+                      className="timeline-item"
+                    >
+                      <div className="timeline-number">
+                        {index + 1}
+                      </div>
+
+                      <p>{item.trim()}</p>
+                    </div>
+
+                  ))}
+
+              </div>
+
+            </div>
+          )}
+
+          {/* included services */}
+          {combo.included_services && (
+            <div className="detail-card">
+
+              <h2>Included Services</h2>
+
+              <div className="highlight-grid">
+
+                {combo.included_services
+                  .split(',')
+                  .map((item, index) => (
+
+                    <div
+                      key={index}
+                      className="highlight-item"
+                    >
+                      ✅ {item.trim()}
+                    </div>
+
+                  ))}
+
+              </div>
+
+            </div>
+          )}
+
+          {/* excluded services */}
+          {combo.excluded_services && (
+            <div className="detail-card">
+
+              <h2>Excluded Services</h2>
+
+              <div className="highlight-grid">
+
+                {combo.excluded_services
+                  .split(',')
+                  .map((item, index) => (
+
+                    <div
+                      key={index}
+                      className="highlight-item"
+                    >
+                      ❌ {item.trim()}
+                    </div>
+
+                  ))}
+
+              </div>
+
+            </div>
+          )}
 
           {/* booking section */}
           <div className="booking-card">
@@ -162,13 +328,16 @@ export default function ComboDetailPage() {
             </p>
 
             <h2 className="booking-price">
-              {Number(combo.original_price).toLocaleString()} đ
+              {Number(combo.original_price).toLocaleString('vi-VN')} đ
             </h2>
 
-            <p className="price-person">/ person</p>
+            <p className="price-person">
+              per package
+            </p>
 
             {/* people input */}
             <div className="booking-field">
+
               <label>Number of Travelers</label>
 
               <input
@@ -177,6 +346,7 @@ export default function ComboDetailPage() {
                 value={people}
                 onChange={(e) => setPeople(e.target.value)}
               />
+
             </div>
 
             {/* calculate button */}
@@ -186,15 +356,16 @@ export default function ComboDetailPage() {
             >
               Calculate Final Price
             </button>
- 
+
             {/* final price result */}
             {priceData && (
               <div className="price-summary">
 
                 <div className="summary-row">
                   <span>Original Price</span>
+
                   <strong>
-                    {Number(priceData.original_price).toLocaleString()} đ
+                    {Number(priceData.original_price).toLocaleString('vi-VN')} đ
                   </strong>
                 </div>
 
@@ -202,7 +373,9 @@ export default function ComboDetailPage() {
                   <span>Discount</span>
 
                   <strong>
-                    -{Number(priceData.discount_amount).toLocaleString()} đ
+                    {Number(priceData.discount_amount) > 0
+                      ? `-${Number(priceData.discount_amount).toLocaleString('vi-VN')} đ`
+                      : '0 đ'}
                   </strong>
                 </div>
 
@@ -210,19 +383,17 @@ export default function ComboDetailPage() {
                   <span>Total</span>
 
                   <strong>
-                    {Number(priceData.final_price).toLocaleString()} đ
+                    {Number(priceData.final_price).toLocaleString('vi-VN')} đ
                   </strong>
                 </div>
 
               </div>
             )}
- 
+
             {/* book now */}
             <button
               className="book-btn"
-              onClick={() =>
-                navigate(`/booking?combo_id=${combo.combo_id}`)
-              }
+              onClick={handleBookNow}
             >
               Book Now
             </button>
@@ -230,6 +401,7 @@ export default function ComboDetailPage() {
           </div>
 
         </div>
+
       </main>
 
       {/* sidebar */}

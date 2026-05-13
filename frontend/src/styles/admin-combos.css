@@ -1,0 +1,135 @@
+/* admin combos page */
+
+.admin-page {
+  min-height: 100vh;
+  padding: 40px;
+  background: var(--cream);
+  color: var(--dark-gray);
+}
+
+/* admin header */
+
+.admin-page h1 {
+  font-size: 56px;
+  margin-bottom: 8px;
+}
+
+.admin-page > p {
+  color: #777;
+  font-size: 18px;
+  margin-bottom: 28px;
+}
+
+/* message */
+
+.admin-page p[style*="green"] {
+  background: #eef3e3;
+  color: var(--olive-dark) !important;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 2px solid #dfe4cc;
+}
+
+.admin-page p[style*="red"] {
+  background: #fff0f0;
+  color: #d4183d !important;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 2px solid #efc7c2;
+}
+
+/* admin form card */
+
+.admin-page form {
+  max-width: 100% !important;
+  padding: 34px !important;
+  border: 4px solid #3b3b3b !important;
+  border-radius: 28px !important;
+  background: #fffdf8 !important;
+  box-shadow: 8px 8px 0 #3b3b3b !important;
+}
+
+/* form title */
+
+.admin-page form h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+/* form fields */
+
+.admin-page input,
+.admin-page textarea,
+.admin-page select {
+  width: 100%;
+  border: 2px solid #dfe4cc;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-size: 16px;
+  outline: none;
+  background: white;
+}
+
+/* textarea */
+
+.admin-page textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* form focus */
+
+.admin-page input:focus,
+.admin-page textarea:focus,
+.admin-page select:focus {
+  border-color: var(--sage-green);
+}
+
+/* button */
+
+.admin-page button {
+  border: none;
+  border-radius: 16px;
+  padding: 14px 22px;
+  background: var(--sage-green);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* secondary button */
+
+.admin-page button[type="button"] {
+  background: #efc7c2;
+  color: #3b3b3b;
+}
+
+/* combo list area */
+
+.admin-page h2 {
+  font-size: 36px;
+  margin-bottom: 18px;
+}
+
+/* combo card */
+
+.admin-page div[style*="border: 1px solid"] {
+  border: 3px solid #3b3b3b !important;
+  border-radius: 24px !important;
+  padding: 24px !important;
+  background: #fffdf8 !important;
+  box-shadow: 6px 6px 0 #3b3b3b !important;
+}
+
+/* combo title */
+
+.admin-page h3 {
+  font-size: 24px;
+  margin-bottom: 14px;
+}
+
+/* price/status text */
+
+.admin-page strong {
+  color: #3b3b3b;
+}

@@ -12,6 +12,7 @@ import './styles/region.css';
 import './styles/responsive.css';
 import './styles/booking.css';
 import './styles/combo-detail.css';
+import './styles/admin-combos.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

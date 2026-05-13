@@ -4,7 +4,13 @@ const { successResponse, errorResponse } = require('../utils/response');
 //api search/filter cho user (chi lay combo active)
 const getCombos = async (req, res) => {
   try {
-    const { region, destination, minPrice, maxPrice } = req.query;
+    const {
+      region,
+      destination,
+      minPrice,
+      maxPrice,
+      combo_type
+    } = req.query;
 
     let query = "SELECT * FROM combos WHERE status = 'active'";
     let values = [];
@@ -17,6 +23,15 @@ const getCombos = async (req, res) => {
     if (destination) {
       values.push(destination);
       query += ` AND destination = $${values.length}`;
+    }
+
+    // filter theo combo type
+    if (combo_type) {
+      values.push(combo_type);
+      query += `
+        AND LOWER(combo_type)
+        = LOWER($${values.length})
+      `;
     }
 
     if (minPrice) {
@@ -53,21 +68,55 @@ const getAllCombosAdmin = async (req, res) => {
   }
 };
 
-//get combo theo id:
+//get combo theo id kem danh sach promotions
 const getComboById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const result = await pool.query(
-      'SELECT * FROM combos WHERE combo_id = $1',
+    // lay thong tin combo
+    const comboResult = await pool.query(
+      `
+      SELECT *
+      FROM combos
+      WHERE combo_id = $1
+      `,
       [id]
     );
 
-    if (result.rows.length === 0) {
+    if (comboResult.rows.length === 0) {
       return errorResponse(res, 'Combo not found', 404);
     }
 
-    return successResponse(res, result.rows[0], 'Combo fetched successfully');
+    // lay danh sach promotion dang gan voi combo
+    const promotionResult = await pool.query(
+      `
+      SELECT
+        p.promotion_id,
+        p.title,
+        p.discount_type,
+        p.discount_value,
+        p.start_date,
+        p.end_date,
+        p.min_people,
+        p.max_people,
+        p.is_active
+      FROM promotions p
+      JOIN combo_promotions cp
+        ON p.promotion_id = cp.promotion_id
+      WHERE cp.combo_id = $1
+      ORDER BY p.promotion_id DESC
+      `,
+      [id]
+    );
+
+    return successResponse(
+      res,
+      {
+        combo: comboResult.rows[0],
+        promotions: promotionResult.rows
+      },
+      'Combo fetched successfully'
+    );
   } catch (err) {
     console.error(err);
     return errorResponse(res, 'Server error', 500);
@@ -180,22 +229,30 @@ const getFinalPrice = async (req, res) => {
 //api create combo
 const createCombo = async (req, res) => {
   try {
-    console.log('BODY:', req.body);
-    
     const {
       title,
       destination,
       region,
       description,
       duration_days,
+      duration_nights,
       accommodation_type,
       accommodation_name,
       original_price,
       image_url,
       status,
-      created_by
+      created_by,
+
+      // thong tin mo rong cua combo
+      transportation,
+      included_services,
+      excluded_services,
+      highlights,
+      itinerary,
+      combo_type
     } = req.body;
 
+    // validate field bat buoc
     if (
       !title ||
       !destination ||
@@ -208,8 +265,32 @@ const createCombo = async (req, res) => {
 
     const result = await pool.query(
       `INSERT INTO combos
-      (title, destination, region, description, duration_days, accommodation_type, accommodation_name, original_price, image_url, status, created_by)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      (
+        title,
+        destination,
+        region,
+        description,
+        duration_days,
+        duration_nights,
+        accommodation_type,
+        accommodation_name,
+        original_price,
+        image_url,
+        status,
+        created_by,
+        transportation,
+        included_services,
+        excluded_services,
+        highlights,
+        itinerary,
+        combo_type
+      )
+      VALUES
+      (
+        $1, $2, $3, $4, $5, $6,
+        $7, $8, $9, $10, $11, $12,
+        $13, $14, $15, $16, $17, $18
+      )
       RETURNING *`,
       [
         title,
@@ -217,12 +298,19 @@ const createCombo = async (req, res) => {
         region,
         description || null,
         duration_days,
+        duration_nights || null,
         accommodation_type || null,
         accommodation_name || null,
         original_price,
         image_url || null,
         status || 'active',
-        created_by || null
+        created_by || null,
+        transportation || null,
+        included_services || null,
+        excluded_services || null,
+        highlights || null,
+        itinerary || null,
+        combo_type || null
       ]
     );
 
@@ -244,13 +332,23 @@ const updateCombo = async (req, res) => {
       region,
       description,
       duration_days,
+      duration_nights,
       accommodation_type,
       accommodation_name,
       original_price,
       image_url,
-      status
+      status,
+
+      // thong tin mo rong cua combo
+      transportation,
+      included_services,
+      excluded_services,
+      highlights,
+      itinerary,
+      combo_type
     } = req.body;
 
+    // validate field bat buoc
     if (
       !title ||
       !destination ||
@@ -268,13 +366,20 @@ const updateCombo = async (req, res) => {
            region = $3,
            description = $4,
            duration_days = $5,
-           accommodation_type = $6,
-           accommodation_name = $7,
-           original_price = $8,
-           image_url = $9,
-           status = $10,
+           duration_nights = $6,
+           accommodation_type = $7,
+           accommodation_name = $8,
+           original_price = $9,
+           image_url = $10,
+           status = $11,
+           transportation = $12,
+           included_services = $13,
+           excluded_services = $14,
+           highlights = $15,
+           itinerary = $16,
+           combo_type = $17,
            updated_at = CURRENT_TIMESTAMP
-       WHERE combo_id = $11
+       WHERE combo_id = $18
        RETURNING *`,
       [
         title,
@@ -282,11 +387,18 @@ const updateCombo = async (req, res) => {
         region,
         description || null,
         duration_days,
+        duration_nights || null,
         accommodation_type || null,
         accommodation_name || null,
         original_price,
         image_url || null,
         status || 'active',
+        transportation || null,
+        included_services || null,
+        excluded_services || null,
+        highlights || null,
+        itinerary || null,
+        combo_type || null,
         id
       ]
     );

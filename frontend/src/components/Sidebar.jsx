@@ -1,70 +1,110 @@
-//component sidebar ben phai
+import '../styles/sidebar.css';
+import { useNavigate } from 'react-router-dom';
+
+// sidebar dung chung cho cac page
 export default function Sidebar() {
+  const navigate = useNavigate();
+
+  // danh sach destination
+  const destinations = [
+    'Vietnam',
+    'Asia',
+    'Europe',
+    'Africa',
+    'Americas',
+    'Oceania',
+  ];
+
   return (
     <aside className="sidebar">
       {/* logo */}
-      <div>
-        <h2 className="logo">TravelZone</h2>
-        <p className="subtitle">Modern Travel Experience</p>
+      <div className="sidebar-logo">
+        <h2>TravelZone</h2>
+        <p>Modern Travel Experience</p>
       </div>
 
-      {/* menu section */}
+      {/* menu */}
       <div className="sidebar-section">
-        <p className="section-title">MENU</p>
+        <p className="sidebar-label">MENU</p>
 
-        <div className="menu-item active">
+        <button
+          type="button"
+          className="sidebar-item active"
+          onClick={() => navigate('/')}
+        >
           <span>⌂</span>
+
           <div>
             <strong>Home</strong>
             <small>Dashboard</small>
           </div>
-        </div>
+        </button>
 
-        <div className="menu-item">
+        <button
+          type="button"
+          className="sidebar-item"
+          onClick={() => navigate('/')}
+        >
           <span>♡</span>
+
           <div>
             <strong>Favorite</strong>
             <small>Saved combos</small>
           </div>
-        </div>
+        </button>
 
-        <div className="menu-item">
-          <span>◷</span>
+        <button
+          type="button"
+          className="sidebar-item"
+          onClick={() => navigate('/')}
+        >
+          <span>◴</span>
+
           <div>
             <strong>Recent</strong>
             <small>Viewed combos</small>
           </div>
-        </div>
+        </button>
 
-        <div className="menu-item">
+        <button
+          type="button"
+          className="sidebar-item"
+          onClick={() => navigate('/')}
+        >
           <span>ⓘ</span>
+
           <div>
             <strong>About You</strong>
             <small>Contact form</small>
           </div>
-        </div>
+        </button>
       </div>
 
-      {/* destinations section */}
+      {/* destinations */}
       <div className="sidebar-section">
-        <p className="section-title">DESTINATIONS</p>
+        <p className="sidebar-label">DESTINATIONS</p>
 
-        {['Vietnam', 'Asia', 'Europe', 'Africa', 'Americas', 'Oceania'].map((item) => (
-          <div className="destination-item" key={item}>
+        {destinations.map((item) => (
+          <button
+            key={item}
+            type="button"
+            className="destination-item"
+            onClick={() => navigate(`/?destination=${item}`)}
+          >
             <span>◎</span>
-            <p>{item}</p>
-          </div>
+            {item}
+          </button>
         ))}
       </div>
 
-      {/* stats section */}
-      <div className="travel-stats">
+      {/* stats */}
+      <div className="stats-card">
         <p>TRAVEL STATS</p>
 
         <h3>200+</h3>
         <span>Travel Combos</span>
 
-        <h3 className="pink">50K+</h3>
+        <h3>50K+</h3>
         <span>Happy Travelers</span>
       </div>
     </aside>

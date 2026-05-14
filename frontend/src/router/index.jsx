@@ -5,6 +5,7 @@ import BookingPage from '../pages/BookingPage';
 import AdminBookingsPage from '../pages/AdminBookingsPage';
 import AdminCombosPage from '../pages/AdminCombosPage';
 import AdminPromotionsPage from '../pages/AdminPromotionsPage';
+import BookingSuccessPage from '../pages/bookingSuccessPage';
 
 export default function AppRouter() {
   return (
@@ -13,6 +14,11 @@ export default function AppRouter() {
         <Route path="/" element={<HomePage />} />
         <Route path="/combos/:id" element={<ComboDetailPage />} />
         <Route path="/booking" element={<BookingPage />} />
+
+        <Route
+          path="/booking-success"
+          element={<BookingSuccessPage />}
+        />
 
         <Route path="/admin/bookings" element={<AdminBookingsPage />} />
         <Route path="/admin/combos" element={<AdminCombosPage />} />

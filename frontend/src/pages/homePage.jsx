@@ -15,56 +15,66 @@ export default function HomePage() {
   //state loading
   const [loading, setLoading] = useState(true);
 
-  //state filter
+  //state filter search
   const [destination, setDestination] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+
+  //state filter combo type
+  const [selectedType, setSelectedType] = useState('All');
+
+  //danh sach loai combo
+  const comboTypes = [
+    'All',
+    'Solo Travel',
+    'Couple Getaway',
+    'Family Package',
+    'Group Tour',
+    'Luxury Escape',
+  ];
 
   //state hero slider
   const [currentSlide, setCurrentSlide] = useState(0);
 
   //data hero slider
   const heroSlides = [
-      {
-        title: 'Explore Europe',
-        subtitle: 'Historic Cities & Coastal Escapes',
-        description: 'Journey through centuries of culture and architecture',
-        region: 'Europe',
-        season: 'Spring & Summer',
-        image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1600&q=80',
-      },
+    {
+      title: 'Explore Europe',
+      subtitle: 'Historic Cities & Coastal Escapes',
+      description: 'Journey through centuries of culture and architecture',
+      region: 'Europe',
+      season: 'Spring & Summer',
+      image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1600&q=80',
+    },
+    {
+      title: 'Discover Vietnam',
+      subtitle: 'Beaches, Bays & Ancient Towns',
+      description: 'Experience tropical coastlines and cultural heritage',
+      region: 'Vietnam',
+      season: 'Best Seller',
+      image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1600&q=80',
+    },
+    {
+      title: 'Escape to Asia',
+      subtitle: 'Islands, Cities & Traditions',
+      description: 'Find peaceful resorts and vibrant local experiences',
+      region: 'Asia',
+      season: 'Hot Deal',
+      image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80',
+    },
+    {
+      title: 'Relax in Maldives',
+      subtitle: 'Luxury Resorts & Ocean Views',
+      description: 'Enjoy crystal clear water and unforgettable sunsets',
+      region: 'Oceania',
+      season: 'Luxury Escape',
+      image: 'https://images.unsplash.com/photo-1573843981267-be1999ff37cd?auto=format&fit=crop&w=1600&q=80',
+    },
+  ];
 
-      {
-        title: 'Discover Vietnam',
-        subtitle: 'Beaches, Bays & Ancient Towns',
-        description: 'Experience tropical coastlines and cultural heritage',
-        region: 'Vietnam',
-        season: 'Best Seller',
-        image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1600&q=80',
-      },
-      
-      {
-        title: 'Escape to Asia',
-        subtitle: 'Islands, Cities & Traditions',
-        description: 'Find peaceful resorts and vibrant local experiences',
-        region: 'Asia',
-        season: 'Hot Deal',
-        image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80',
-      },
-      
-      {
-        title: 'Relax in Maldives',
-        subtitle: 'Luxury Resorts & Ocean Views',
-        description: 'Enjoy crystal clear water and unforgettable sunsets',
-        region: 'Oceania',
-        season: 'Luxury Escape',
-        image: 'https://images.unsplash.com/photo-1573843981267-be1999ff37cd?auto=format&fit=crop&w=1600&q=80',
-      },
-    ];
-
-  //goi api khi mo trang
+  //goi api khi mo trang va khi doi combo type
   useEffect(() => {
     fetchCombos();
-  }, []);
+  }, [selectedType]);
 
   //tu dong chuyen hero slide
   useEffect(() => {
@@ -98,17 +108,24 @@ export default function HomePage() {
 
       const params = {};
 
+      //filter theo destination
       if (destination) {
         params.destination = destination;
       }
 
+      //filter theo max price
       if (maxPrice) {
         params.maxPrice = maxPrice;
       }
 
+      //filter theo combo type
+      if (selectedType !== 'All') {
+        params.combo_type = selectedType;
+      }
+
       const response = await api.get('/combos', { params });
 
-      setCombos(response.data.data);
+      setCombos(response.data.data || []);
     } catch (err) {
       console.error(err);
     } finally {
@@ -119,16 +136,25 @@ export default function HomePage() {
   //xu ly click tag popular
   const handlePopularClick = (tag) => {
     setDestination(tag);
+  };
 
-    setTimeout(() => {
-      fetchCombos();
-    }, 0);
+  //xu ly submit search
+  const handleSearch = () => {
+    fetchCombos();
+  };
+
+  //reset tat ca filter
+  const handleResetFilter = () => {
+    setDestination('');
+    setMaxPrice('');
+    setSelectedType('All');
   };
 
   return (
     <div className="app-layout">
       {/* main content */}
       <main className="main-content">
+
         {/* hero section */}
         <section
           className="hero"
@@ -140,6 +166,7 @@ export default function HomePage() {
           }}
         >
           <div className="hero-overlay">
+
             {/* hero tags */}
             <div className="hero-tags">
               <span>📍 {heroSlides[currentSlide].region}</span>
@@ -152,7 +179,14 @@ export default function HomePage() {
             <p>{heroSlides[currentSlide].description}</p>
 
             {/* hero button */}
-            <button className="hero-button">
+            <button
+              className="hero-button"
+              onClick={() => {
+                document
+                  .querySelector('.deals-section')
+                  ?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               Explore Packages
             </button>
 
@@ -203,7 +237,7 @@ export default function HomePage() {
             onChange={(e) => setMaxPrice(e.target.value)}
           />
 
-          <button onClick={fetchCombos}>
+          <button onClick={handleSearch}>
             Search
           </button>
         </section>
@@ -222,6 +256,30 @@ export default function HomePage() {
           ))}
         </section>
 
+        {/* combo type filters */}
+        <section className="combo-type-filter">
+          {comboTypes.map((type) => (
+            <button
+              key={type}
+              className={
+                selectedType === type
+                  ? 'type-filter-btn active'
+                  : 'type-filter-btn'
+              }
+              onClick={() => setSelectedType(type)}
+            >
+              {type}
+            </button>
+          ))}
+
+          <button
+            className="type-filter-btn reset"
+            onClick={handleResetFilter}
+          >
+            Reset
+          </button>
+        </section>
+
         {/* hot deals section */}
         <section className="deals-section">
           <div className="section-heading">
@@ -236,6 +294,8 @@ export default function HomePage() {
           {/* loading combo */}
           {loading ? (
             <p>Loading combos...</p>
+          ) : combos.length === 0 ? (
+            <p>No combos found.</p>
           ) : (
             <div className="combo-grid">
               {combos.map((combo) => (
@@ -265,7 +325,12 @@ export default function HomePage() {
 
                 <p>Discover amazing travel experiences</p>
 
-                <button>
+                <button
+                  onClick={() => {
+                    setDestination(region);
+                    fetchCombos();
+                  }}
+                >
                   Explore Now →
                 </button>
               </div>
